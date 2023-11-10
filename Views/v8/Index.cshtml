@@ -1,0 +1,22 @@
+﻿@model DropDown.Models.GradeStoreVM
+
+@{
+    ViewBag.Title = "MasterDetailAJ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Version 8 Master Detail with Partial Views and Auto Postback</h2>
+@Html.Partial("MasterDetailPV_DD")
+@Html.Partial("MasterDetailPV_List")
+
+
+@section scripts
+    {
+    <script type="text/javascript">
+        $(function () {
+            $("#GradeId").change(function () {
+                $('#MyForm').submit();
+            });
+        });
+    </script>
+}

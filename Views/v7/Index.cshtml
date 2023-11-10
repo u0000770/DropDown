@@ -1,0 +1,61 @@
+﻿@model DropDown.Models.GradeStoreVM
+
+@{
+ViewBag.Title = "MasterDetailPB";
+Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Version 7 Master Detail with auto postback</h2>
+
+<p>The view required two modifications from the single view we used in Version 6.
+The first change is using a different overload of the BeginForm method, that allows us to give the form an id attribute.
+The second change was including this simple snippet of Jquery.
+
+</p>
+
+@using (Html.BeginForm("Details", "v7", FormMethod.Get, new { id = "MyForm" }))
+{
+    <fieldset>
+        @if ( Model.GradeId == null)
+        {
+        <p> Grade Type
+        @Html.DropDownListFor(m => m.GradeId, Model.List, "--Select One--")
+        </p>
+        <p>No current Selection</P>
+        }
+        else
+        {
+            <p> Grade Type
+            @Html.DropDownListFor(m => m.GradeId, Model.List, "--Select Another--")
+            </p>
+            if (Model.GradeStores != null)
+            {
+            <table>
+            @foreach(var i in Model.GradeStores)
+            {
+            <tr>
+            <td>
+            @i.StoreName
+            </td>
+            </tr>
+            }
+        </table>
+        }
+    <p>The current selection is @Model.GradeId</p>
+    }
+    </fieldset>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+    $(function() {
+    $("#GradeId").change(function () {
+            $('#MyForm').submit();
+        });
+    });
+</script>
+}
+

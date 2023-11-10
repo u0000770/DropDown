@@ -1,0 +1,49 @@
+﻿@model DropDown.Models.GradeStoreVM
+@{
+ViewBag.Title = "MasterDetail";
+Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Version 5 Master - Detail</h2>
+<p>
+This version builds an aggregate view model from a domain model that has two entities in with a one to many relationship. 
+The initial action displays the master list while the subsequent 
+action not only displays the master list but also displays a filtered list of related children objects.</p>
+
+@using (Html.BeginForm("Details", "v6", FormMethod.Get))
+{
+    <fieldset>
+        @if ( Model.GradeId == null)
+        {
+        <p> Grade Type
+        @Html.DropDownListFor(m => m.GradeId, Model.List, "--Select One--")
+        </p>
+        <p>No current Selection</P>
+        }
+        else
+        {
+    <p> Grade Type
+    @Html.DropDownListFor(m => m.GradeId, Model.List,"--Select Another--")
+    </p>
+        if (Model.GradeStores != null)
+        {
+        <hr />
+        <table>
+            @foreach(var i in Model.GradeStores)
+            {
+                <tr>
+                    <td>
+                    @i.StoreName
+                    </td>
+                </tr>
+            }
+        </table>
+        }
+        <hr />
+        <p>The current selection is @Model.GradeId</p>
+        }
+    <p>
+    <input type="submit" value="Submit" />
+    </p>
+    </fieldset>
+}
+

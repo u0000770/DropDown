@@ -1,0 +1,41 @@
+﻿    @model DropDown.Models.SelectViewModel
+@{
+   ViewBag.Title = "Version 4";
+   Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Version 4 - Single View</h1>
+
+<p>Is different from the previous 3 versions as it uses a single view to capture the request and subsequently 
+    display the data requested. 
+    This version moves us one small step closer towards an interactive single page experience.</p>
+
+    <p>Inside the view we are using the razor language to test the state of the SelectId property of the model.
+
+If SelectId has no value, we can assume it is the initial visit to this view and there will be no result to display. However, if this property has a value, 
+then we need to display this selection and the list with this selection highlighted.</p>
+
+
+    <hr />
+
+
+@using (Html.BeginForm("Details", "v4", FormMethod.Get))
+{
+<fieldset>
+    @if ( Model.SelectId == null)
+      {
+           <p> Grade Type </p>
+           @Html.DropDownListFor(m => m.SelectId, Model.List, "--Select One--")
+           <p>No current Selection</P>
+      }
+    else
+     {
+          <p> Grade Type
+          @Html.DropDownListFor(m => m.SelectId, Model.List, Model.SelectId)
+          </p>
+          <p>The current selection is @Model.SelectId</p>
+     }
+<p><input type="submit" value="Submit" /></p>
+</fieldset>
+}
+

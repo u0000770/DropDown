@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Version 2 – Html Helpers and SelectList class</h1>
+
+<p>
+    This version adds no additional behaviour to version 1; the user would see little difference. But it does apply a key principle we should strive to adopt, abstraction.  
+    Abstraction is the process by which items are defined with a representation that hides the implementation details.  
+    It is through abstraction we aim to reduce and remove complex details so that we can focus on a fewer and simpler ideas.
+
+    The .NET framework provides the SelectList Class and in particular the SelectListItem class which represents ( an abstraction of )  the items in an instance of the that SelectList class. The Select List class provides a model of and relates to the
+    "Select" element within the UI and the SelectListItem relates to the
+    "Option" elements.
+
+    Within the View abstraction is achieved through HTML helpers that encapsulate both the associated HTML and Javascript.
+
+    The following example behaves in the same way as the previous example but uses the BeginForm & DropDownList helpers.
+</p>
+
+<hr />
+
+@using(Html.BeginForm("Details", "v2", FormMethod.Get)) {
+<fieldset>
+Grade Type @Html.DropDownList("Grade")
+<input type="submit" value="Submit" />
+</fieldset>
+}
+

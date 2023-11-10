@@ -1,0 +1,28 @@
+﻿@model DropDown.Models.GradeStoreVM
+
+<hr />
+<p>Master Partial View</p>
+@using (Html.BeginForm("Details", "v8", FormMethod.Get, new { id = "MyForm" }))
+{
+    <fieldset>
+    @if ( Model.GradeId == null)
+    {
+        <p> Grade Type
+        @Html.DropDownListFor(m => m.GradeId, Model.List, "--Select One--")
+        </p>
+        <p>No current Selection</P>
+    }
+    else
+    {
+        <p> Grade Type
+        @Html.DropDownListFor(m => m.GradeId, Model.List, "--Select Another--")
+        </p>
+        <p>The current selection is @Model.GradeId</p>
+    }
+    </fieldset>
+}
+
+<hr />
+
+
+
