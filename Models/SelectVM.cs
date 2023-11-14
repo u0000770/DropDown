@@ -1,5 +1,6 @@
 ﻿using DropDown.Data;
 using DropDown.Domain;
+using DropDown.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using static System.Formats.Asn1.AsnWriter;
 
@@ -41,4 +42,31 @@ namespace DropDown.Models
         }
 
     }
+
+    public class EventTypeVM
+    {
+        public string EventType { get; set; }
+    }
+
+    public class EventListVM
+    {
+        public string Name { get; set; }
+        public string EventTypeId { get; set; }
+        public IEnumerable<SelectListItem> List { get; set; }
+
+        public static List<SelectListItem> BuildList(List<EventTypeDTO> lst)
+        {
+
+            List<SelectListItem> items = new List<SelectListItem>();
+            foreach (var i in lst)
+            {
+                items.Add(new SelectListItem { Text = i.Title, Value = i.Id });
+            }
+
+            return items;
+        }
+
+    }
+
+
 }

@@ -1,0 +1,21 @@
+﻿@model DropDown.Models.EventListVM
+@{
+    ViewBag.Title = "MasterV2";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Using Venues Web Service</h1>
+
+<p>This uses the Venues Web service to populate the Drop down list</p>
+
+<p>The code refactors the service into a service layer that is injected into the controller</p>
+<p>This service Layer contains both the DTO definition and methods that are accessible to the controler</p>
+<p>Also note how i have loosly coupled the controller to the implemented http client and methods through the use of an interface</p>
+
+@using (Html.BeginForm("Details", "v9", FormMethod.Get))
+{
+    <fieldset>
+        @Model.Name<br> @Html.DropDownListFor(m => m.EventTypeId, Model.List, "--Select One--")
+        <input type="submit" value="Submit" />
+    </fieldset>
+}
