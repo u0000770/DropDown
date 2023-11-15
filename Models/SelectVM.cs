@@ -6,6 +6,7 @@ using static System.Formats.Asn1.AsnWriter;
 
 namespace DropDown.Models
 {
+
     public class SelectViewModel
     {
         public string SelectId { get; set; }
@@ -21,7 +22,6 @@ namespace DropDown.Models
             return items;
         }
     }
-
 
     public class GradeStoreVM
     {

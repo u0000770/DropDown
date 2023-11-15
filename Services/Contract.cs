@@ -8,4 +8,12 @@ namespace DropDown.Services
         public string Id { get; set; }
         public string Title { get; set; }
     }
+
+    public interface IVenueService
+    {
+        Task<List<EventTypeDTO>> getEventTypes();
+        Task<EventTypeDTO> getEventType(string id);
+    }
+
+
 }

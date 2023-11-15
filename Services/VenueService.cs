@@ -2,11 +2,7 @@
 
 namespace DropDown.Services
 {
-    public interface IVenueService
-    {
-        Task<List<EventTypeDTO>> getEventTypes();
-        Task<EventTypeDTO> getEventType(string id);
-    }
+   
 
     public class VenueService : IVenueService
     {
