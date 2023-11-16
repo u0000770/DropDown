@@ -21,10 +21,19 @@
 
 <hr />
 
-@using(Html.BeginForm("Details", "v2", FormMethod.Get)) {
+@*@using(Html.BeginForm("Details", "v2", FormMethod.Get)) {
 <fieldset>
 Grade Type @Html.DropDownList("Grade")
 <input type="submit" value="Submit" />
 </fieldset>
-}
+}*@
+
+
+<form asp-controller="v2" asp-action="Details" method="Get">
+    <fieldset>
+    <select  asp-items="ViewBag.Grade"></select>
+    <br />
+        <input type="submit" value="Submit" />
+    </fieldset>
+</form>
 

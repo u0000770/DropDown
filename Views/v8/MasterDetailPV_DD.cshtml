@@ -2,7 +2,32 @@
 
 <hr />
 <p>Master Partial View</p>
-@using (Html.BeginForm("Details", "v8", FormMethod.Get, new { id = "MyForm" }))
+
+<form asp-controller="v8" asp-action="Details" method="Get" id="MyForm">
+    <fieldset>
+    @if ( Model.GradeId == null)
+      {
+           <p> Grade Type </p>
+            <select asp-for=GradeId asp-items=Model.List>
+                <option>Select -- One</option>
+            </select>
+           <p>No current Selection</P>
+      }
+    else
+     {
+          <p> Grade Type
+          <select asp-for=GradeId asp-items=Model.List>
+              <option selected>Select -- Another</option>
+            </select>
+          </p>
+        <hr />
+        <p>The current selection is @Model.GradeId</p>
+     }
+
+    </fieldset>
+</form>
+
+@*@using (Html.BeginForm("Details", "v8", FormMethod.Get, new { id = "MyForm" }))
 {
     <fieldset>
     @if ( Model.GradeId == null)
@@ -21,7 +46,7 @@
     }
     </fieldset>
 }
-
+*@
 <hr />
 
 

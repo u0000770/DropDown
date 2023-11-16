@@ -15,6 +15,45 @@ The second change was including this simple snippet of Jquery.
 
 </p>
 
+<form asp-controller="v7" asp-action="Details" method="Get" id="MyForm">
+    <fieldset>
+    @if ( Model.GradeId == null)
+      {
+           <p> Grade Type </p>
+            <select asp-for=GradeId asp-items=Model.List>
+                <option>Select -- One</option>
+            </select>
+           <p>No current Selection</P>
+      }
+    else
+     {
+          <p> Grade Type
+          <select asp-for=GradeId asp-items=Model.List>
+              <option selected>Select -- Another</option>
+            </select>
+          </p>
+          if (Model.GradeStores != null)
+          {
+          <hr />
+            <table>
+                @foreach(var i in Model.GradeStores)
+                {
+                    <tr>
+                        <td>
+                        @i.StoreName
+                        </td>
+                    </tr>
+                }
+            </table>
+          }
+        <hr />
+        <p>The current selection is @Model.GradeId</p>
+     }
+
+    </fieldset>
+</form>
+
+@*
 @using (Html.BeginForm("Details", "v7", FormMethod.Get, new { id = "MyForm" }))
 {
     <fieldset>
@@ -47,7 +86,7 @@ The second change was including this simple snippet of Jquery.
     }
     </fieldset>
 }
-
+*@
 @section scripts
 {
     <script type="text/javascript">

@@ -17,7 +17,7 @@ namespace DropDown.Models
             List<SelectListItem> items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = "Very Large", Value = "0" });
             items.Add(new SelectListItem { Text = "Large", Value = "1" });
-            items.Add(new SelectListItem { Text = "Medium", Value = "2", Selected = true });
+            items.Add(new SelectListItem { Text = "Medium", Value = "2" });
             items.Add(new SelectListItem { Text = "Small", Value = "3" });
             return items;
         }

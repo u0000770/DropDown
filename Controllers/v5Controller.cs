@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DropDown.Data;
 using DropDown.Domain;
 using DropDown.Migrations;
+using DropDown.Models;
 
 namespace DropDown.Controllers
 {
@@ -29,11 +30,26 @@ namespace DropDown.Controllers
             ViewData["GradeId"] = new SelectList(_context.Grades, "GradeId", "Description", Id);
         }
 
+        private SelectList BuildGradeSelectListVM(int? Id = null)
+        {
+            if (Id == null)
+            {
+                return new SelectList(_context.Grades, "GradeId", "Description");
+            }
+            return new SelectList(_context.Grades, "GradeId", "Description", Id);
+        }
+
         // GET: v5
         public async Task<IActionResult> Index()
         {
-            var ourDbContext = _context.Shops.Include(s => s.Grade);
-            return View(await ourDbContext.ToListAsync());
+            var shops = _context.Shops.Include(s => s.Grade);
+            var vm = shops.Select(s =>  new ShopListItemVM
+            {
+                 StoreId = s.StoreId,
+                  StoreName = s.StoreName,
+                     grade = s.Grade.Description
+            }).ToList();
+            return View(vm);
         }
 
         // GET: v5/Details/5
@@ -52,14 +68,29 @@ namespace DropDown.Controllers
                 return NotFound();
             }
 
-            return View(shop);
+            var vm = new ShopListDetailVM
+            { 
+              StoreId = shop.StoreId,
+               StoreName = shop.StoreName,
+                 StoreNumber = shop.StoreNumber,
+                  Description = shop.Description,
+                   grade = shop.Grade.Description        
+            };
+
+
+            return View(vm);
         }
 
         // GET: v5/Create
         public IActionResult Create()
         {
-            BuildGradeSelectList();
-            return View();
+            var grades = _context.Grades;
+            var vm = new ShopItemViewModel
+            {
+                listOfGrades = ShopItemViewModel.BuildGradeSelectList(grades.ToList())
+            };
+
+            return View(vm);
         }
 
  
@@ -69,15 +100,33 @@ namespace DropDown.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StoreId,StoreNumber,StoreName,Description,GradeId")] Shop shop)
+        public async Task<IActionResult> Create([Bind("StoreNumber,StoreName,Description,GradeId")] ShopItemViewModel shop)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(shop);
-                await _context.SaveChangesAsync();
+                Shop newShop = new Shop();
+                newShop.StoreName = shop.StoreName;
+                newShop.StoreNumber = shop.StoreNumber; 
+                newShop.Description = shop.Description;
+                newShop.GradeId = shop.GradeId;
+                _context.Add(newShop);
+                try { 
+                    await _context.SaveChangesAsync();
+                }
+                catch(Exception ex)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
                 return RedirectToAction(nameof(Index));
             }
-            BuildGradeSelectList(shop.GradeId);
+
+            var grades = _context.Grades;
+            var vm = new ShopItemViewModel
+            {
+                listOfGrades = ShopItemViewModel.BuildGradeSelectList(grades.ToList(),shop.GradeId)
+            };
+
             return View(shop);
         }
 
@@ -94,8 +143,20 @@ namespace DropDown.Controllers
             {
                 return NotFound();
             }
-            BuildGradeSelectList(shop.GradeId);
-            return View(shop);
+
+            var grades = _context.Grades;
+            var vm = new ShopItemViewModel
+            {
+                 StoreId = shop.StoreId,
+                 StoreNumber = shop.StoreNumber,
+                 StoreName = shop.StoreName,
+                 Description = shop.Description,
+                 GradeId = shop.GradeId,
+                listOfGrades = ShopItemViewModel.BuildGradeSelectList(grades.ToList(), shop.GradeId)
+            };
+
+
+            return View(vm);
         }
 
         // POST: v5/Edit/5
@@ -103,7 +164,7 @@ namespace DropDown.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StoreId,StoreNumber,StoreName,Description,GradeId")] Shop shop)
+        public async Task<IActionResult> Edit(int id, [Bind("StoreId,StoreNumber,StoreName,Description,GradeId")] ShopItemViewModel shop)
         {
             if (id != shop.StoreId)
             {
@@ -114,24 +175,39 @@ namespace DropDown.Controllers
             {
                 try
                 {
-                    _context.Update(shop);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ShopExists(shop.StoreId))
+                    Shop updateShop = await _context.Shops.SingleOrDefaultAsync(s => s.StoreId == shop.StoreId);
+                    if (updateShop != null)
                     {
-                        return NotFound();
+                        updateShop.StoreNumber = shop.StoreNumber;
+                        updateShop.StoreName = shop.StoreName;
+                        updateShop.Description = shop.Description;
+                        updateShop.GradeId = shop.GradeId;
+                        _context.Update(updateShop);
+                        await _context.SaveChangesAsync();
                     }
                     else
                     {
-                        throw;
+                        return NotFound();
                     }
+                   
+                }
+                catch (Exception ex)
+                {
+                   return BadRequest(ex.Message);
                 }
                 return RedirectToAction(nameof(Index));
             }
-            BuildGradeSelectList(shop.GradeId);
-            return View(shop);
+
+            var grades = _context.Grades;
+            var vm = new ShopItemViewModel
+            {
+                StoreId = shop.StoreId,
+                StoreName = shop.StoreName,
+                Description = shop.Description,
+                GradeId = shop.GradeId,
+                listOfGrades = ShopItemViewModel.BuildGradeSelectList(grades.ToList(), shop.GradeId)
+            };
+            return View(vm);
         }
 
         // GET: v5/Delete/5
@@ -150,7 +226,18 @@ namespace DropDown.Controllers
                 return NotFound();
             }
 
-            return View(shop);
+            var vm = new ShopListDetailVM
+            {
+                StoreId = shop.StoreId,
+                StoreName = shop.StoreName,
+                StoreNumber = shop.StoreNumber,
+                Description = shop.Description,
+                grade = shop.Grade.Description
+            };
+
+
+            return View(vm);
+
         }
 
         // POST: v5/Delete/5

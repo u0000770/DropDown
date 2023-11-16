@@ -12,10 +12,19 @@
 <p>This service Layer contains both the DTO definition and methods that are accessible to the controler</p>
 <p>Also note how i have loosly coupled the controller to the implemented http client and methods through the use of an interface</p>
 
-@using (Html.BeginForm("Details", "v9", FormMethod.Get))
+<form asp-controller="v9" asp-action="Details" method="Get">
+    <fieldset>
+        <select asp-for=EventTypeId asp-items="Model.List"></select>
+        <br />
+        <input type="submit" value="Submit" />
+    </fieldset>
+</form>
+
+
+@*@using (Html.BeginForm("Details", "v9", FormMethod.Get))
 {
     <fieldset>
         @Model.Name<br> @Html.DropDownListFor(m => m.EventTypeId, Model.List, "--Select One--")
         <input type="submit" value="Submit" />
     </fieldset>
-}
+}*@

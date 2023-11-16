@@ -9,6 +9,47 @@ This version builds an aggregate view model from a domain model that has two ent
 The initial action displays the master list while the subsequent 
 action not only displays the master list but also displays a filtered list of related children objects.</p>
 
+<form asp-controller="v6" asp-action="Details" method="Get">
+    <fieldset>
+    @if ( Model.GradeId == null)
+      {
+           <p> Grade Type </p>
+            <select asp-for=GradeId asp-items=Model.List>
+                <option>Select -- One</option>
+            </select>
+           <p>No current Selection</P>
+      }
+    else
+     {
+          <p> Grade Type
+          <select asp-for=GradeId asp-items=Model.List>
+              <option selected>Select -- Another</option>
+            </select>
+          </p>
+          if (Model.GradeStores != null)
+          {
+          <hr />
+            <table>
+                @foreach(var i in Model.GradeStores)
+                {
+                    <tr>
+                        <td>
+                        @i.StoreName
+                        </td>
+                    </tr>
+                }
+            </table>
+          }
+        <hr />
+        <p>The current selection is @Model.GradeId</p>
+     }
+    <p>
+    <input type="submit" value="Submit" />
+    </p>
+    </fieldset>
+</form>
+
+@*
 @using (Html.BeginForm("Details", "v6", FormMethod.Get))
 {
     <fieldset>
@@ -46,4 +87,4 @@ action not only displays the master list but also displays a filtered list of re
     </p>
     </fieldset>
 }
-
+*@

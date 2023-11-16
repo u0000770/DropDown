@@ -34,10 +34,21 @@ Layout = "~/Views/Shared/_Layout.cshtml";
     It can be directly is coupled with your model type and allows you to supply the property using lambda expressions.*@
 
 
-@using (Html.BeginForm("Details", "v3", FormMethod.Get))
+@*@using (Html.BeginForm("Details", "v3", FormMethod.Get))
 {
 <fieldset>
-Grade Type @Html.DropDownListFor(m => m.SelectId, Model.List, "--Select One--")
+Grade Type @Html.DropDownListFor(me => me.SelectId, Model.List, "--Select One--")
 <input type="submit" value="Submit" />
 </fieldset>
-}
+}*@
+
+
+<form asp-controller="v3" asp-action="Details" method="Get">
+    <fieldset>
+        <select asp-for=SelectId asp-items=Model.List>
+            <option>Select -- One</option>
+        </select>
+        <br />
+        <input type="submit" value="Submit" />
+    </fieldset>
+</form>

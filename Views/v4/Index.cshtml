@@ -19,7 +19,7 @@ then we need to display this selection and the list with this selection highligh
     <hr />
 
 
-@using (Html.BeginForm("Details", "v4", FormMethod.Get))
+@*@using (Html.BeginForm("Details", "v4", FormMethod.Get))
 {
 <fieldset>
     @if ( Model.SelectId == null)
@@ -37,5 +37,29 @@ then we need to display this selection and the list with this selection highligh
      }
 <p><input type="submit" value="Submit" /></p>
 </fieldset>
-}
+}*@
+
+
+<form asp-controller="v4" asp-action="Details" method="Get">
+    <fieldset>
+         @if ( Model.SelectId == null)
+      {
+           <p> Grade Type </p>
+            <select asp-for=SelectId asp-items=Model.List>
+                <option>Select -- One</option>
+            </select>
+           <p>No current Selection</P>
+      }
+       else
+     {
+          <p> Grade Type
+          <select asp-for=SelectId asp-items=Model.List>
+            </select>
+          </p>
+          <p>The current selection is @Model.SelectId</p>
+     }
+        <br />
+        <input type="submit" value="Submit" />
+    </fieldset>
+</form>
 

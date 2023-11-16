@@ -1,4 +1,4 @@
-﻿@model DropDown.Domain.Shop
+﻿@model DropDown.Models.ShopListDetailVM
 
 @{
     ViewData["Title"] = "Details";
@@ -29,10 +29,10 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Grade)
+            @Html.DisplayNameFor(model => model.grade)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Grade.GradeId)
+            @Html.DisplayFor(model => model.grade)
         </dd>
     </dl>
 </div>

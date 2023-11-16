@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DropDown.Domain.Shop>
+﻿@model IEnumerable<DropDown.Models.ShopListItemVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,16 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.StoreNumber)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.StoreName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Grade)
+                @Html.DisplayNameFor(model => model.grade)
             </th>
             <th></th>
         </tr>
@@ -31,16 +25,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.StoreNumber)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.StoreName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Grade.GradeId)
+                @Html.DisplayFor(modelItem => item.grade)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.StoreId">Edit</a> |
